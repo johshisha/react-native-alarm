@@ -1,7 +1,23 @@
-/** @format */
+'use strict'
 
-import {AppRegistry} from 'react-native';
-import App from './src/App';
-import {name as appName} from './app.json';
+// Redux
+import { Platform } from 'react-native'
+// Navigation
+import { Navigation } from 'react-native-navigation'
 
-AppRegistry.registerComponent(appName, () => App);
+import { registerScreens } from './src/screens'
+
+registerScreens();
+
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'alerm_app.Home',
+    navigatorStyle: {
+      navBarNoBorder: true,
+      drawUnderNavBar: true,
+      navBarTranslucent: Platform.OS === 'ios',
+      navBarTransparent: true,
+      navBarBackgroundColor: 'transparent',
+    },
+  },
+})

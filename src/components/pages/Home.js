@@ -1,13 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, PushNotificationIOS, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, Button, PushNotificationIOS, TouchableOpacity } from 'react-native';
 
 import PushNotification from 'react-native-push-notification';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -51,7 +43,7 @@ PushNotification.configure({
     requestPermissions: true,
 });
 
-export default class App extends Component<Props> {
+class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -139,3 +131,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
 });
+
+
+export default Home
