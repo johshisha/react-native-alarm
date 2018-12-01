@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.6.1",
     "react-native": "0.57.5",
+    "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-push-notification": "^3.1.2"
   },
   "devDependencies": {
