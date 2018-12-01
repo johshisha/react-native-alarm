@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button, PushNotificationIOS, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, PushNotificationIOS, DatePickerIOS, Dimensions } from 'react-native';
 
 import PushNotification from 'react-native-push-notification';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 
 PushNotification.configure({
 
@@ -47,17 +46,8 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isDateTimePickerVisible: false,
-      setTime: null,
+      setTime: new Date(),
     }
-  }
-
-  _showDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: true })
-  }
-
-  _hideDateTimePicker() {
-    this.setState({ isDateTimePickerVisible: false })
   }
 
   _handleDatePicked(date) {
@@ -66,24 +56,19 @@ class Home extends Component {
     }
     date.setSeconds(0);
     this.setState({setTime: date})
-    console.log('A date has been picked: ', date);
-
-    this._hideDateTimePicker();
   }
 
   render() {
+    console.log(this.state.setTime)
     return (
       <View style={[styles.container, { flex: 1 }]}>
-        <Button onPress={this.onPress.bind(this)} title={"Set notification"} />
-        <TouchableOpacity onPress={this._showDateTimePicker.bind(this)}>
-          <Text>Show DatePicker</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked.bind(this)}
-          onCancel={this._hideDateTimePicker.bind(this)}
+        <DatePickerIOS
+          date={this.state.setTime}
+          onDateChange={this._handleDatePicked.bind(this)}
           mode={'time'}
+          style={{width: Dimensions.get("window").width}}
         />
+        <Button onPress={this.onPress.bind(this)} title={"Set notification"} />
       </View>
     );
   }
@@ -118,7 +103,7 @@ class Home extends Component {
       number: '10', // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
       repeatType: 'day', // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
       actions: '["Yes", "No"]',  // (Android only) See the doc for notification actions to know more
-      date: this.state.setTime || new Date(Date.now() + (6 * 1000)) // in 6 secs
+      date: this.state.setTime
     });
   }
 }
