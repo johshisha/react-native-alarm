@@ -57,17 +57,19 @@ class Home extends Component {
       date.setDate(date.getDate()+1);
     }
     date.setSeconds(0);
+    console.log('will handle date picked')
     this.fetchNotifiers()
+    console.log('done handle date picked')
     this.setState({setTime: date})
   }
 
   fetchNotifiers() {
     let notifications = []
     PushNotificationIOS.getScheduledLocalNotifications(res => {
-      console.log(res)
       res.map(notif => { notifications.push(notif.fireDate) })
-      console.log(notifications)
+      console.log('will set notifications')
       this.setState(notifications)
+      console.log('done set notifications')
     })
   }
 
