@@ -48,6 +48,7 @@ class Home extends Component {
     this.state = {
       setTime: new Date(),
       switchValue: false,
+      notifications: [],
     }
   }
 
@@ -56,12 +57,34 @@ class Home extends Component {
       date.setDate(date.getDate()+1);
     }
     date.setSeconds(0);
+    console.log('will handle date picked')
+    this.fetchNotifiers()
+    console.log('done handle date picked')
     this.setState({setTime: date})
   }
 
+  fetchNotifiers() {
+    let notifications = []
+    PushNotificationIOS.getScheduledLocalNotifications(res => {
+      res.map(notif => { notifications.push(notif.fireDate) })
+      console.log('will set notifications')
+      this.setState(notifications)
+      console.log('done set notifications')
+    })
+  }
+
   render() {
+    console.log('getScheduledLocalNotifications')
+    console.log(this.state.notifications)
     return (
       <View style={[styles.container, { flex: 1 }]}>
+        <View>
+          <Text>Registered Notifications</Text>
+          {this.state.notifications.map((notif) => {
+            console.log(notif)
+            return (<Text>{notif}</Text>)
+          })}
+        </View>
         <DatePickerIOS
           date={this.state.setTime}
           onDateChange={this._handleDatePicked.bind(this)}
@@ -100,7 +123,6 @@ class Home extends Component {
       playSound: true, // (optional) default: true
       soundName: 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
       number: '10', // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
-      repeatType: 'day', // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
       actions: '["Yes", "No"]',  // (Android only) See the doc for notification actions to know more
       date: this.state.setTime
     });
